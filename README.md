@@ -27,7 +27,7 @@ Note that all of the dates used in this library use `datetime`.
 
 ```python
 from sagedining.core import Meal, MenuCategory
-from datetime.datetime import today
+from datetime import datetime
 
 menu_categories = sage_object.get_categories_date(datetime.datetime.today(), Meal.LUNCH, [
     MenuCategory.MAIN_INGREDIENT,
@@ -38,10 +38,8 @@ menu_categories = sage_object.get_categories_date(datetime.datetime.today(), Mea
 This returns an array for every category passed in containing `SageMenuItems`, which map to the menu items being served.
 
 ```python
-from sagedining.core import HealthDot
-
 for category in menu_categories:
     for menu_item in category:
         print(f"Name: {str(menu_item)}")
-        print(f"Healthiness Rating: {HealthDot.get_readable_rating(menu_item.health_rating)}")
+        print(f"Healthiness Rating: {str(menu_item.health_rating)}")
 ```

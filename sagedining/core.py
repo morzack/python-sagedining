@@ -19,38 +19,31 @@ class MenuCategory:
 
 class HealthDot:
     """Sage nutrition dot rating"""
-    RED, YELLOW, GREEN = range(1, 4)
-    ALL = 6
-    NIL = 0
+    RED = "red"
+    YELLOW = "yellow"
+    GREEN = "green"
+    ALL = "all"
+    NIL = "none"
+
+    RATING_SCALE = {
+        1 : RED,
+        2 : YELLOW,
+        3 : GREEN,
+        6 : ALL,
+    }
+
+    def __init__(self, i):
+        self.rating = HealthDot.get_dot_rating(i)
+
+    def __str__(self):
+        return self.rating
 
     def get_dot_rating(i):
         """
         get a health dot given a numerical rating from Sage json
             :param i: sage rating as stored in json (1, 2, 3 == red, yellow, green)
         """
-        if i == 1:
-            return HealthDot.RED
-        elif i == 2:
-            return HealthDot.YELLOW
-        elif i == 3:
-            return HealthDot.GREEN
-        elif i == 6:
-            return HealthDot.ALL
-        else:
-            return HealthDot.NIL
-        
-    def get_readable_rating(i):
-        """
-        get a string representing the health rating of a given healthdot
-            :param i: the rating of a dot
-        """
-        mapping = {
-            1 : "red",
-            2 : "yellow",
-            3 : "green",
-            6 : "all"
-        }
-        return mapping[i] if i in mapping else "nil"
+        return HealthDot.RATING_SCALE[i] if i in HealthDot.RATING_SCALE else HealthDot.NIL
 
 def construct_query_url(school_id, cardinality=0):
     """
@@ -66,7 +59,7 @@ class SageMenuItem:
             :param sage_data: data for the menu item structured in the sage format
         """
         self.name = sage_data["t"]
-        self.health_rating = HealthDot.get_dot_rating(sage_data["d"])
+        self.health_rating = HealthDot(sage_data["d"])
 
     def __str__(self):
         return self.name
