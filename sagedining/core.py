@@ -102,7 +102,7 @@ class Sage:
         days_from_first = (date-self.first_date).days+1
         if days_from_first < 0:
             raise DateNotValid
-        week = days_from_first // 7
+        week = (days_from_first+((self.first_date.weekday()+1)%7)) // 7
         if week >= len(self.menu_data):
             raise DateNotValid
         return self.menu_data[week][day_of_week][meal]
